@@ -1,22 +1,21 @@
+// next.config.mjs
 /** @type {import('next').NextConfig} */
+// Serve at root during development. When building for production (static export for GitHub Pages),
+// set the repo base path. Update '/Birthday_page' to match your repo name when deploying.
+const isProd = process.env.NODE_ENV === "production";
+const REPO_BASE = isProd ? "/Birthday_page" : "";
+
 const nextConfig = {
-  // Menghasilkan folder 'out' yang berisi file HTML statis
   output: "export",
-
-  // PENTING: Pastikan ini sudah benar sesuai nama repo Anda
-  // basePath must start with a leading '/'. Use the repo name if deploying to GitHub Pages.
-  basePath: "/Birthday_page", // Ganti '/nama-repo-anda' sesuai repo Anda
-
-  // Diperlukan untuk Next.js Image component agar bekerja di GitHub Pages
+  ...(REPO_BASE ? { basePath: REPO_BASE } : {}),
+  ...(REPO_BASE ? { assetPrefix: REPO_BASE } : {}),
   images: {
     unoptimized: true,
   },
-  // When exporting for GitHub Pages, ensure assets are served from the repo path
-  assetPrefix: "/Birthday_page/public",
-  // produce files with trailing slash so GitHub Pages can serve index.html from folders
-  trailingSlash: true,
+  trailingSlash: !!REPO_BASE,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: REPO_BASE,
+  },
 };
 
-// --- INI BAGIAN YANG DIPERBAIKI ---
-// Kita ganti 'module.exports' dengan 'export default'
 export default nextConfig;
