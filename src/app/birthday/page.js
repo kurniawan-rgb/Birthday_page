@@ -21,6 +21,8 @@ import Link from "next/link";
 // 'id' is a unique name.
 // 'position' is where it appears on the screen (top and left percentages).
 // 'content' is what shows up in the pop-up modal.
+import asset from "../../../src/lib/asset";
+
 const hotspotsData = [
   {
     id: "photoFrame",
@@ -28,7 +30,7 @@ const hotspotsData = [
     content: {
       title: "Foto Pertama",
       text: "Hahah di sini masih malu-malu foto di depan bank tapi bukan yg ini",
-      image: "/foto_qila/PHOTO-2025-08-18-16-30-13.jpg", // Your image from the 'public' folder
+      image: asset("/foto_qila/PHOTO-2025-08-18-16-30-13.jpg"), // Your image from the 'public' folder
     },
   },
   {
@@ -37,7 +39,7 @@ const hotspotsData = [
     content: {
       title: "Sama-sama manis",
       text: "Senyum ta' dan senyum ku sama-sama manis hhaha",
-      image: "/foto_qila/foto-imut.jpg", // A picture of popcorn or a movie poster
+      image: asset("/foto_qila/foto-imut.jpg"), // A picture of popcorn or a movie poster
     },
   },
   {
@@ -46,7 +48,7 @@ const hotspotsData = [
     content: {
       title: "Sama-sama tumbuh",
       text: "Semoga bisa ki tumbuh sama-sama dan berkembang sama",
-      image: "/foto_qila/foto-animal.jpg", // A picture of a plant or you two in nature
+      image: asset("/foto_qila/foto-animal.jpg"), // A picture of a plant or you two in nature
     },
   },
   {
@@ -55,7 +57,7 @@ const hotspotsData = [
     content: {
       title: "Video For you",
       text: "Maaf sayang ndak bisa terlalu perfect yang ku kasi ki",
-      video: "/foto_qila/video_qila.mp4", // This one will link to the next page!
+      video: asset("/foto_qila/video_qila.mp4"), // This one will link to the next page!
     },
   },
 ];

@@ -1,20 +1,24 @@
-/** @type {import('next').NextConfig} */
+// next.config.mjs
+const isProd = process.env.NODE_ENV === "production";
+// Prefer explicit env override; fallback to hard-coded repo name only in production
+const REPO_BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? (isProd ? "/Birthday_page" : "");
+
 const nextConfig = {
-  // Menghasilkan folder 'out' yang berisi file HTML statis
   output: "export",
 
-  // PENTING: Pastikan ini sudah benar sesuai nama repo Anda
-  // basePath must start with a leading '/'. Use the repo name if deploying to GitHub Pages.
-  basePath: "/Birthday_page", // Ganti '/nama-repo-anda' sesuai repo Anda
+  // only set these when REPO_BASE is non-empty (production/export)
+  ...(REPO_BASE ? { basePath: REPO_BASE, assetPrefix: REPO_BASE } : {}),
 
-  // Diperlukan untuk Next.js Image component agar bekerja di GitHub Pages
   images: {
     unoptimized: true,
   },
-  // When exporting for GitHub Pages, ensure assets are served from the repo path
-  assetPrefix: "/Birthday_page/public",
+
+  trailingSlash: !!REPO_BASE,
+
+  // expose to client code: asset() helper or client code can read NEXT_PUBLIC_BASE_PATH
+  env: {
+    NEXT_PUBLIC_BASE_PATH: REPO_BASE,
+  },
 };
 
-// --- INI BAGIAN YANG DIPERBAIKI ---
-// Kita ganti 'module.exports' dengan 'export default'
 export default nextConfig;

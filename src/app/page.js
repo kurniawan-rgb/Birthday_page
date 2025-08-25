@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import asset from "../../src/lib/asset";
 import "../../public/cake.css";
 import Link from "next/link";
 
@@ -134,7 +135,7 @@ export default function Home() {
   }, [lampOn]);
 
   // Balon interaktif
-  const balloonImages = React.useMemo(() => ["/b1.png", "/b2.png", "/b3.png", "/b4.png", "/b5.png", "/b6.png"], []);
+  const balloonImages = React.useMemo(() => [asset("/b1.png"), asset("/b2.png"), asset("/b3.png"), asset("/b4.png"), asset("/b5.png"), asset("/b6.png")], []);
   const [balloons, setBalloons] = useState([]);
 
   // Generate balon baru
@@ -375,15 +376,15 @@ export default function Home() {
       <div className="flex-1 flex flex-col items-center">
         {/* Lamp image */}
         <div className="flex flex-row items-center gap-4 lamp-row">
-          <img src={lampOn ? "/bulb_red.png" : "/bulb.png"} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-red" : ""}`} />
-          <img src={lampOn ? "/bulb_blue.png" : "/bulb.png"} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-blue" : ""}`} />
-          <img src={lampOn ? "/bulb_yellow.png" : "/bulb.png"} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-yellow" : ""}`} />
-          <img src={lampOn ? "/bulb_green.png" : "/bulb.png"} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-green" : ""}`} />
-          <img src={lampOn ? "/bulb_pink.png" : "/bulb.png"} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-pink" : ""}`} />
+          <img src={lampOn ? asset("/bulb_red.png") : asset("/bulb.png")} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-red" : ""}`} />
+          <img src={lampOn ? asset("/bulb_blue.png") : asset("/bulb.png")} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-blue" : ""}`} />
+          <img src={lampOn ? asset("/bulb_yellow.png") : asset("/bulb.png")} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-yellow" : ""}`} />
+          <img src={lampOn ? asset("/bulb_green.png") : asset("/bulb.png")} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-green" : ""}`} />
+          <img src={lampOn ? asset("/bulb_pink.png") : asset("/bulb.png")} alt="Lampu" className={`lamp-img ${lampOn ? "lamp-glow-pink" : ""}`} />
         </div>
 
         {/* Balloon decoration, animates in when lamp/music on */}
-        {lampOn && <img src="/Balloon-Border.png" alt="Dekorasi Balon" className="mb-6 ml-20 mr-20 mt-10  balloon-border" />}
+        {lampOn && <img src={asset("/Balloon-Border.png")} alt="Dekorasi Balon" className="mb-6 ml-20 mr-20 mt-10  balloon-border" />}
 
         {/* Animated Happy Birthday text, appears one by one when lamp/music on */}
         {lampOn && (
@@ -550,11 +551,11 @@ export default function Home() {
         {/* Lamp button */}
         <button className="button-lamp">
           {!lampOn && <h2 className="lamp-btn-text">Click Me</h2>}
-          <img src={lampOn ? "/offf_pulp.png" : "/on_pulp.png"} alt="Lampu" className="lamp-btn-img" onClick={handleLampClick} />
+          <img src={lampOn ? asset("/offf_pulp.png") : asset("/on_pulp.png")} alt="Lampu" className="lamp-btn-img" onClick={handleLampClick} />
         </button>
 
         {/* Audio element for music */}
-        <audio ref={audioRef} src="/selamat_ultah.mp3" preload="auto" />
+        <audio ref={audioRef} src={asset("/selamat_ultah.mp3")} preload="auto" />
       </div>
       {/* <div className="flex flex-col items-center justify-center ml-4">
         <div className="photo-frame">
