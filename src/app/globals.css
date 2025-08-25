@@ -482,6 +482,33 @@ hr {
   height: auto;
 }
 
+/* Modal video styling */
+.modal-video {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Confetti pieces */
+.confetti-container {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+.confetti-piece {
+  position: absolute;
+  top: -10px;
+  opacity: 0.95;
+  transform-origin: center;
+  animation: confetti-fall 5s linear forwards;
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -881,36 +908,9 @@ hr {
 /* ensure visible */
 .cake-wrapper { opacity: 1 !important; }
 
-/* Message display styling */
-.message-display {
-  max-width: 520px;
-  margin: 0 auto;
-  background: rgba(255,255,255,0.92);
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-  color: #222;
-}
-
-/* .message-frame {
-  max-width: 520px;
-  margin: 0 auto;
-  background: linear-gradient(180deg, #fff, #fffaf6);
-  border: 4px solid #ffdce6;
-  padding: 12px 14px;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  color: #222;
-} */
-
-.message-content {
-  white-space: pre-wrap;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #333;
-}
 
 /* Countdown overlay */
-/* .countdown-overlay {
+.countdown-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
@@ -933,5 +933,6 @@ hr {
   font-weight: 700;
   margin: 12px 0 8px;
   letter-spacing: 1px;
-} */
+}
+
 

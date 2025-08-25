@@ -31,21 +31,45 @@ export default function Home() {
   const [showMessageTyping, setShowMessageTyping] = useState(false);
   const messageRef = useRef({ timer: null, cancelled: false });
   const [messagesDone, setMessagesDone] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [confettiPieces, setConfettiPieces] = useState([]);
+  const confettiTimerRef = useRef(null);
+  const confettiIntervalRef = useRef(null);
   const messageLines = React.useMemo(
     () => [
-      "Today is...",
-      "as beautiful as other days",
-      "but you realize",
-      "another year has gone",
-      "in a blink of the eyes",
-      "however",
-      "Do you know..?",
-      "today is just special",
-      "so special to you",
-      "thats why",
-      "Lets make it...",
-      "the best celebration ever",
-      "and let me share...",
+      "Halo Sayang",
+      "Hari Ini adalah hari spesial ta",
+      "tawwa tambah tua mi",
+      "hahahha tapi tetap ki cantik lah",
+      "tambah banyak mi na pikir",
+      "sudah banyak kita lewati",
+      "mulai senang....",
+      "sudah senang kita sedih lagi",
+      "kadang juga marah-maraj hahhaha",
+      "tapi itu mi yang di bilang ",
+      "hidup hehehhe",
+      "apalagi sekarang koas ki",
+      "bertubi-tubi cobaan hahha",
+      "mulai cari pasien susah, belum lagi d kmpus",
+      "tapi yakin ka bisa semua ki lalui",
+      "Doakan untuk kita ",
+      "di umur ta ini.....",
+      "semoga selalu ki tambah sabar",
+      "ini paling utama",
+      "semoga bisa ki gapai semua apa-apa yang kita harapkan",
+      "dan bisa ki jdi lebih baik kedepannya",
+      "semoga tambah banyak rezeki ta",
+      "kurangi marah-maraah hehheh",
+      "satu pi terakhir",
+      "tetap ki rendah hati dimanapun berada",
+      "masih banyak mau di sampaikan tapi capek menulis di web",
+      "hahahhaha",
+      "love youu ......",
+      "ingat trnya bos ku hehhehheh",
+      "di sari laut mo",
+      "yg penting sama kita",
+      "sehat-sehat ki",
+      "drg(soon) Nur Aqilah.,S.KG",
     ],
     []
   );
@@ -57,37 +81,37 @@ export default function Home() {
   const [timeLeft, setTimeLeft] = useState("00:00:00");
 
   // helper to format ms -> HH:MM:SS
-  // const fmt = (ms) => {
-  //   if (ms <= 0) return "00:00:00";
-  //   const total = Math.floor(ms / 1000);
-  //   const s = total % 60;
-  //   const m = Math.floor((total / 60) % 60);
-  //   const h = Math.floor(total / 3600);
-  //   const pad = (n) => String(n).padStart(2, "0");
-  //   return `${pad(h)}:${pad(m)}:${pad(s)}`;
-  // };
+  const fmt = (ms) => {
+    if (ms <= 0) return "00:00:00";
+    const total = Math.floor(ms / 1000);
+    const s = total % 60;
+    const m = Math.floor((total / 60) % 60);
+    const h = Math.floor(total / 3600);
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${pad(h)}:${pad(m)}:${pad(s)}`;
+  };
 
   // countdown timer effect
-  // useEffect(() => {
-  //   const target = countdownTargetRef.current;
-  //   const update = () => {
-  //     const diff = target.getTime() - Date.now();
-  //     if (diff <= 0) {
-  //       setTimeLeft("00:00:00");
-  //       setCountdownActive(false);
-  //       return true;
-  //     }
-  //     setTimeLeft(fmt(diff));
-  //     return false;
-  //   };
+  useEffect(() => {
+    const target = countdownTargetRef.current;
+    const update = () => {
+      const diff = target.getTime() - Date.now();
+      if (diff <= 0) {
+        setTimeLeft("00:00:00");
+        setCountdownActive(false);
+        return true;
+      }
+      setTimeLeft(fmt(diff));
+      return false;
+    };
 
-  //   // run immediately and then every 1s
-  //   if (update()) return;
-  //   const id = setInterval(() => {
-  //     if (update()) clearInterval(id);
-  //   }, 1000);
-  //   return () => clearInterval(id);
-  // }, []);
+    // run immediately and then every 1s
+    if (update()) return;
+    const id = setInterval(() => {
+      if (update()) clearInterval(id);
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   // Timer untuk memunculkan elemen secara berurutan
   useEffect(() => {
@@ -241,6 +265,33 @@ export default function Home() {
     };
   }, [savedWish]);
 
+  // stop continuous confetti when messages are done
+  useEffect(() => {
+    if (messagesDone) {
+      // stop interval
+      if (confettiIntervalRef.current) {
+        clearInterval(confettiIntervalRef.current);
+        confettiIntervalRef.current = null;
+      }
+      // let existing pieces finish then clear
+      if (confettiTimerRef.current) clearTimeout(confettiTimerRef.current);
+      confettiTimerRef.current = setTimeout(() => {
+        setShowConfetti(false);
+        setConfettiPieces([]);
+        confettiTimerRef.current = null;
+      }, 2600);
+    }
+    return () => {};
+  }, [messagesDone]);
+
+  // cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (confettiIntervalRef.current) clearInterval(confettiIntervalRef.current);
+      if (confettiTimerRef.current) clearTimeout(confettiTimerRef.current);
+    };
+  }, []);
+
   // per-sentence typing: types each line from messageLines, clears it, then continues
   useEffect(() => {
     if (!showMessageTyping) return;
@@ -285,8 +336,28 @@ export default function Home() {
 
   return (
     <main className="center-content flex flex-row items-center justify-center w-full">
+      {/* Confetti overlay */}
+      {showConfetti && (
+        <div className="confetti-container">
+          {confettiPieces.map((p) => (
+            <div
+              key={p.id}
+              className="confetti-piece"
+              style={{
+                left: `${p.left}%`,
+                background: p.bg,
+                width: p.size,
+                height: p.size * 0.6,
+                borderRadius: 2,
+                transform: `rotate(${p.rotate}deg)`,
+                animationDelay: `${p.delay}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
       {/* Countdown overlay: blocks interaction until target time */}
-      {/* {countdownActive && (
+      {countdownActive && (
         <div className="countdown-overlay">
           <div className="countdown-box">
             <h2>Coming Soon</h2>
@@ -294,7 +365,7 @@ export default function Home() {
             <p>Site will unlock when the clock reaches 00:00</p>
           </div>
         </div>
-      )} */}
+      )}
       {/* Foto kiri */}
       {/* <div className="flex flex-col items-center justify-center mr-4">
         <div className="photo-frame">
@@ -387,6 +458,25 @@ export default function Home() {
                       setShowWishForm(false);
                       setCandleLit(false); // extinguish candle after wish
                       setWish("");
+                      // start continuous confetti bursts until messagesDone
+                      setShowConfetti(true);
+                      // immediate burst
+                      const burst = (baseId = 0) =>
+                        Array.from({ length: 40 }).map((_, i) => ({
+                          id: `${Date.now()}-${baseId}-${i}`,
+                          left: Math.random() * 100,
+                          bg: `hsl(${Math.floor(Math.random() * 360)}deg, 90%, 60%)`,
+                          delay: Math.random() * 1.2,
+                          size: Math.floor(Math.random() * 10) + 6,
+                          rotate: Math.floor(Math.random() * 360),
+                        }));
+                      setConfettiPieces((prev) => [...prev, ...burst(0)]);
+                      // start interval for repeated bursts
+                      if (!confettiIntervalRef.current) {
+                        confettiIntervalRef.current = setInterval(() => {
+                          setConfettiPieces((prev) => [...prev, ...burst(prev.length + 1)]);
+                        }, 900);
+                      }
                     }}
                   >
                     <input type="text" value={wish} onChange={(e) => setWish(e.target.value)} placeholder="Type your wish..." className="w-full p-2 mb-4 border rounded" />
@@ -404,7 +494,7 @@ export default function Home() {
             )}
             {typedText && (
               <p className="mb-4 whitespace-pre-wrap">
-                <span className="font-bold">{typedText}</span>
+                <span className="font-bold text-2xl ">{typedText}</span>
               </p>
             )}
 
@@ -464,7 +554,7 @@ export default function Home() {
         </button>
 
         {/* Audio element for music */}
-        <audio ref={audioRef} src="/hbd.mp3" preload="auto" />
+        <audio ref={audioRef} src="/selamat_ultah.mp3" preload="auto" />
       </div>
       {/* <div className="flex flex-col items-center justify-center ml-4">
         <div className="photo-frame">
