@@ -12,7 +12,7 @@ const nextConfig = {
     unoptimized: true,
   },
   // When exporting for GitHub Pages, ensure assets are served from the repo path
-  assetPrefix: "/Birthday_page",
+  assetPrefix: "/Birthday_page/public",
   // produce files with trailing slash so GitHub Pages can serve index.html from folders
   trailingSlash: true,
 };
