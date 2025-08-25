@@ -11,6 +11,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // When exporting for GitHub Pages, ensure assets are served from the repo path
+  assetPrefix: "/Birthday_page",
+  // produce files with trailing slash so GitHub Pages can serve index.html from folders
+  trailingSlash: true,
 };
 
 // --- INI BAGIAN YANG DIPERBAIKI ---
