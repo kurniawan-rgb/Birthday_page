@@ -12,7 +12,7 @@ const nextConfig = {
     unoptimized: true,
   },
   // When exporting for GitHub Pages, ensure assets are served from the repo path
-  assetPrefix: "/Birthday_page",
+  assetPrefix: "/Birthday_page/public",
 };
 
 // --- INI BAGIAN YANG DIPERBAIKI ---
